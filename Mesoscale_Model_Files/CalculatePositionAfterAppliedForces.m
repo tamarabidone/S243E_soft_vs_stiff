@@ -154,36 +154,36 @@ function [MVAR, AdhesionTensions, Data, StretchDistance] = ...
     
                 
 %% SUBSTRATE MOTION SECTION 
-% gamma5 = 6*pi*100*10^-6*(500/sqrt(2)); 
-% ks_global = MVAR.ModelParameters.k_s_global; 
-% Ymem = MVAR.Membrane.Nodes.Ycoords(end); 
-% Sub_F = -(MVAR.ModelParameters.YPrev - Ymem)*ks_global; 
-% MVAR.ModelParameters.Substrate.Ycoords = MVAR.ModelParameters.YPrev + (-TotalForceOnSubstrate + Sub_F)*dt/gamma5; 
-% Sub_M = MVAR.ModelParameters.Substrate.Ycoords - MVAR.ModelParameters.YPrev; 
-% alpha = 0.01; % Tune this: smaller alpha means ligands lag substrate more 
-% ligand_shift = alpha * Sub_M; MVAR.Ligands.XYpoints(:,2) = MVAR.Ligands.XYpoints(:,2) + ligand_shift; 
-%MVAR.ModelParameters.YPrev = MVAR.ModelParameters.Substrate.Ycoords; 
-%Data.SubstrateForce = Sub_F; 
-%Data.SubPosition = MVAR.ModelParameters.Substrate.Ycoords;
-
-k_a = MVAR.ModelParameters.k_a;
-k_l = MVAR.ModelParameters.k_l;
-nu =  MVAR.ModelParameters.nu;
-
-if ~isfield(MVAR.ModelParameters,'PrevForce')
-    MVAR.ModelParameters.PrevForce = TotalForceOnSubstrate;
-end
-PrevForce = MVAR.ModelParameters.PrevForce;
-dFs = (TotalForceOnSubstrate - PrevForce)/dt;
-MVAR.ModelParameters.YPrev = MVAR.ModelParameters.Substrate.Ycoords; 
-MVAR.ModelParameters.Substrate.Ycoords = MVAR.ModelParameters.YPrev + (k_a*TotalForceOnSubstrate + nu*(dFs) - k_a*k_l*MVAR.ModelParameters.YPrev)*(dt/((k_a + k_l)*nu));                
+gamma5 = 6*pi*100*10^-6*(500/sqrt(2)); 
+ks_global = MVAR.ModelParameters.k_s_global; 
+Ymem = MVAR.Membrane.Nodes.Ycoords(end); 
+Sub_F = -(MVAR.ModelParameters.YPrev - Ymem)*ks_global; 
+MVAR.ModelParameters.Substrate.Ycoords = MVAR.ModelParameters.YPrev + (-TotalForceOnSubstrate + Sub_F)*dt/gamma5; 
 Sub_M = MVAR.ModelParameters.Substrate.Ycoords - MVAR.ModelParameters.YPrev; 
 alpha = 0.01; % Tune this: smaller alpha means ligands lag substrate more 
-ligand_shift = alpha * Sub_M; 
-MVAR.Ligands.XYpoints(:,2) = MVAR.Ligands.XYpoints(:,2) + ligand_shift; 
-
+ligand_shift = alpha * Sub_M; MVAR.Ligands.XYpoints(:,2) = MVAR.Ligands.XYpoints(:,2) + ligand_shift; 
+MVAR.ModelParameters.YPrev = MVAR.ModelParameters.Substrate.Ycoords; 
+Data.SubstrateForce = Sub_F; 
 Data.SubPosition = MVAR.ModelParameters.Substrate.Ycoords;
-MVAR.ModelParameters.PrevForce = TotalForceOnSubstrate;
+
+%k_a = MVAR.ModelParameters.k_a;
+%k_l = MVAR.ModelParameters.k_l;
+%nu =  MVAR.ModelParameters.nu;
+
+%if ~isfield(MVAR.ModelParameters,'PrevForce')
+    %MVAR.ModelParameters.PrevForce = TotalForceOnSubstrate;
+%end
+%PrevForce = MVAR.ModelParameters.PrevForce;
+%dFs = (TotalForceOnSubstrate - PrevForce)/dt;
+%MVAR.ModelParameters.YPrev = MVAR.ModelParameters.Substrate.Ycoords; 
+%MVAR.ModelParameters.Substrate.Ycoords = MVAR.ModelParameters.YPrev + (k_a*TotalForceOnSubstrate + nu*(dFs) - k_a*k_l*MVAR.ModelParameters.YPrev)*(dt/((k_a + k_l)*nu));                
+%Sub_M = MVAR.ModelParameters.Substrate.Ycoords - MVAR.ModelParameters.YPrev; 
+%alpha = 0.01; % Tune this: smaller alpha means ligands lag substrate more 
+%ligand_shift = alpha * Sub_M; 
+%MVAR.Ligands.XYpoints(:,2) = MVAR.Ligands.XYpoints(:,2) + ligand_shift; 
+
+%Data.SubPosition = MVAR.ModelParameters.Substrate.Ycoords;
+%MVAR.ModelParameters.PrevForce = TotalForceOnSubstrate;
 
 
 end
@@ -269,10 +269,10 @@ function [FAx,FAy,FAvalues,MVAR,AdhesionTensions,StretchDistance] = ...
     Aidx = [];
 
     k_c        = MVAR.ModelParameters.k_c;        
-    % ks_local  = MVAR.ModelParameters.k_s_local;  
-    % ks_global = MVAR.ModelParameters.k_s_global; 
+    ks_local  = MVAR.ModelParameters.k_s_local;  
+    ks_global = MVAR.ModelParameters.k_s_global; 
 
-    %k_cl = (kc * ks_local) / (kc + ks_local);
+    k_cl = (kc * ks_local) / (kc + ks_local);
 
     if ~isempty(MVAR.FALconnections.AdhesionIndex)
 
@@ -294,7 +294,7 @@ function [FAx,FAy,FAvalues,MVAR,AdhesionTensions,StretchDistance] = ...
                 yDist = MVAR.Adhesions.XYpoints(aidx,2) - MVAR.Filaments.XYCoords{f}(midx,2);
                 Sep   = sqrt(xDist^2 + yDist^2);
                 Stretch = Sep - MVAR.ModelParameters.AdhesionSpringEqLength;
-                F = k_c * Stretch;
+                F = k_cl * Stretch;
 
                 if Sep > 0
                     Fx = F * (xDist / Sep);
