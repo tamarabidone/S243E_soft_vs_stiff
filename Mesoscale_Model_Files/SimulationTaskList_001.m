@@ -2,17 +2,17 @@ function SimulationTaskList_001(task_id)
 
 set(0,'DefaultFigureVisible','off');
 
-SaveDirectory = '/uufs/chpc.utah.edu/common/home/bidone-group3/Remi/ViscoElastic/Visco_3rd';
+SaveDirectory = '/uufs/chpc.utah.edu/common/home/bidone-group3/Remi/Elastic/Final_implement';
 addpath(genpath('/uufs/chpc.utah.edu/common/home/bidone-group3/Remi'));
 
 % -----------------------------
 % Fixed parameters
 % -----------------------------
-k_l   = [0.01 0.1 1 10 100 1000];   
-k_a   = [0.1 0.5 1 1.5 2 10 100]; 
-nu    = [0.01 0.1 1 10 100]; 
+k_sub_local    = [0.01 0.1 1 10 100 1000];   
+k_sub_global   = [0.1 0.5 1 1.5 2 10 100]; 
+k_adh          = [1]; 
 k_c   = 1;
-nRuns = 3;
+nRuns = 10;
 
 % -----------------------------
 % Build parameter list
