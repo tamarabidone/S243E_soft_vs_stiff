@@ -75,7 +75,8 @@ parfor k = simSubset
     ModelParameters.k_sub_global  = values(k,3);
 
     % Adhesions
-    ModelParameters.AdhesionActivationRate = values(k,4);          
+    ModelParameters.AdhesionActivationRate = values(k,4);     
+    ModelParameters.k_c = values(k,5);
    
 
     % Actin
