@@ -72,12 +72,12 @@ parfor k = simSubset
     ModelParameters.k_sub_global  = values(k,2);
 
     % Adhesions
-    ModelParameters.k_on = values(k,3);          
-    ModelParameters.nu = values(k,3);  
-    ModelParameters.k_off_pointed = 7;
+    ModelParameters.AdhesionActivationRate = values(k,3);          
+   
 
     % Actin
     ModelParameters.k_branch = 2.2;
+    ModelParameters.k_off_pointed = 7;
     ModelParameters.FAL_connection_Distance = 10 * 2.75;
     ModelParameters.MaximumFilamentMass = 4000;
     ModelParameters.MolecularClutch_PeakNumber = 1;
