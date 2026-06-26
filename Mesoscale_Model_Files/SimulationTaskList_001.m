@@ -8,11 +8,14 @@ addpath(genpath('/uufs/chpc.utah.edu/common/home/bidone-group3/Remi'));
 % -----------------------------
 % Fixed parameters
 % -----------------------------
-k_sub_local    = [0.01 0.1 1 10 100 1000];   
-k_sub_global   = [0.1 0.5 1 1.5 2 10 100]; 
-k_adh          = [1]; 
-k_c   = 1;
+k_s_global_vals = [0.105 0.263 0.525 1.4 2.62 8.05];   % pN/nm
+k_s_local_vals  = [0.0084 0.0210 0.0419 0.1120 0.210 0.645]; % pN/nm
+k_adh_vals      = [1];     % pN/nm
 nRuns = 10;
+E_vals = [0.6 1.5 3 8 15 46];
+%E_vals = {'LOW_E', 'HIGH_E'};
+k_on_vals = [0.9 1.1];
+
 
 % -----------------------------
 % Build parameter list
