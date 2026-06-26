@@ -8,8 +8,8 @@ addpath(genpath('/uufs/chpc.utah.edu/common/home/bidone-group3/Remi'));
 % -----------------------------
 % Fixed parameters
 % -----------------------------
-k_s_global_vals = [0.105 0.263 0.525 1.4 2.62 8.05];   % pN/nm
-k_s_local_vals  = [0.0084 0.0210 0.0419 0.1120 0.210 0.645]; % pN/nm
+k_sub_global = [0.105 0.263 0.525 1.4 2.62 8.05];   % pN/nm
+k_sub_local  = [0.0084 0.0210 0.0419 0.1120 0.210 0.645]; % pN/nm
 k_adh_vals      = [1];     % pN/nm
 nRuns = 10;
 E_vals = [0.6 1.5 3 8 15 46];
@@ -22,15 +22,15 @@ k_on_vals = [0.9 1.1];
 % -----------------------------
 values = [];
 
-for s = 1:length(k_a)        
-    for k = 1:length(k_l)   
-        for n = 1:length(nu)
+for s = 1:length(k_sub_local)        
+    for k = 1:length(k_sub_global)   
+        for n = 1:length(k_on_vals)
             for r = 1:nRuns              
             values = [values; ...
-                k_a(s), ...   
-                k_l(k), ...  
-                nu(n), ...      
-                k_c, ...       
+                k_sub_local(s), ...   
+                k_sub_global(k), ...  
+                k_on_vals(n), ...      
+                k_adh, ...       
                 r];                
             end
         end
@@ -68,11 +68,11 @@ parfor k = simSubset
     ModelParameters.StartingNumberOfFilaments = 32;
 
     % Substrate
-    ModelParameters.k_a = values(k,1);
-    ModelParameters.k_l  = values(k,2);
+    ModelParameters.k_sub_local = values(k,1);
+    ModelParameters.k_sub_global  = values(k,2);
 
     % Adhesions
-    ModelParameters.k_c = values(k,4);          
+    ModelParameters.k_on = values(k,3);          
     ModelParameters.nu = values(k,3);  
     ModelParameters.k_off_pointed = 7;
 
