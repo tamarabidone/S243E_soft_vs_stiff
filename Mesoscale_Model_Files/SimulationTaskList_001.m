@@ -22,16 +22,19 @@ k_on_vals = [0.9 1.1];
 % -----------------------------
 values = [];
 
-for s = 1:length(k_sub_local)        
-    for k = 1:length(k_sub_global)   
-        for n = 1:length(k_on_vals)
-            for r = 1:nRuns              
-            values = [values; ...
-                k_sub_local(s), ...   
-                k_sub_global(k), ...  
-                k_on_vals(n), ...      
-                k_adh, ...       
-                r];                
+for e = 1:length(E_vals)
+    for s = 1:length(k_sub_local)        
+        for k = 1:length(k_sub_global)   
+            for n = 1:length(k_on_vals)
+                for r = 1:nRuns              
+                values = [values; ...
+                    E_vals(e), ...
+                    k_sub_local(s), ...   
+                    k_sub_global(k), ...  
+                    k_on_vals(n), ...      
+                    k_adh, ...       
+                    r];                
+                end
             end
         end
     end
@@ -57,7 +60,7 @@ parpool('local');
 % -----------------------------
 parfor k = simSubset
 
-    rng(values(k,5), 'twister');  % seed by run index
+    rng(values(k,6), 'twister');  % seed by run index
 
     ModelParameters = InitializeModelParameters;
     ModelParameters.TimeStep = 1e-4;
@@ -68,11 +71,11 @@ parfor k = simSubset
     ModelParameters.StartingNumberOfFilaments = 32;
 
     % Substrate
-    ModelParameters.k_sub_local = values(k,1);
-    ModelParameters.k_sub_global  = values(k,2);
+    ModelParameters.k_sub_local = values(k,2);
+    ModelParameters.k_sub_global  = values(k,3);
 
     % Adhesions
-    ModelParameters.AdhesionActivationRate = values(k,3);          
+    ModelParameters.AdhesionActivationRate = values(k,4);          
    
 
     % Actin
@@ -85,11 +88,11 @@ parfor k = simSubset
     % -----------------------------
     % Save name (explicit + readable)
     % -----------------------------
-    SaveName = sprintf('k_a_%s__k_l_%s__nu_%s_run_%02d.mat', ...
-        SimFormat(values(k,1)), ...
-        SimFormat(values(k,2)), ...
-        SimFormat(values(k,3)), ...
-        values(k,5));
+   SaveName = sprintf('%.1f kPa_k_on_%s_k_adh_%s_run_%02d.mat', ...
+                        values(k,1), ...
+                        SimFormat(values(k,2)), ...
+                        SimFormat(values(k,3)), ...
+                        values(k,4));
 
     if ~isfile(fullfile(SaveDirectory, SaveName))
         LamellipodiumModel_Bidone01(ModelParameters,SaveDirectory,SaveName);
