@@ -1,0 +1,18 @@
+# This file was created Tue May 19 10:34:44 2026
+# Created by:
+#              :-) GROMACS - gmx distance, 2024.3-plumed_2.9.3 (-:
+# 
+# Executable:   /uufs/chpc.utah.edu/sys/spack/v019/linux-rocky8-nehalem/gcc-11.2.0/gromacs-2024.3-ttlm5fmpiqsx3ssbubfautsrhmmvjdef/bin/gmx_mpi
+# Data prefix:  /uufs/chpc.utah.edu/sys/spack/v019/linux-rocky8-nehalem/gcc-11.2.0/gromacs-2024.3-ttlm5fmpiqsx3ssbubfautsrhmmvjdef
+# Working dir:  /scratch/general/nfs1/priti_roy/3_Integrin/3_Release_ExtendenState/3_Simulation/1_wt/1_rep/NoPBC
+# Command line:
+#   gmx_mpi distance -s ../wt_extended_solv.gro -f ../wt_extended_solv.gro -n index.ndx -select 'com of group "PullG1_TM_helix_CA" plus com of group "PullG2_HG_chnB_CA"' -oall distance_cv_wt_initial.xvg
+# gmx distance is part of G R O M A C S:
+#
+# GROningen Mixture of Alchemy and Childrens' Stories
+#
+@    title "Distance"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "Distance (nm)"
+@TYPE xy
+      0.000   10.635
