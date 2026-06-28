@@ -1,1 +1,1 @@
-Files related RMSD analyses
+RMSD Analyses
